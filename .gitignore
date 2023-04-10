@@ -1,2 +1,4 @@
 /zenhan
 *.zip
+
+zenhan-rs/target/**
