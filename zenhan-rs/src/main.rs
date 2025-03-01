@@ -15,18 +15,25 @@ fn main() {
     let argc = argv.len();
 
     let h_wnd: HWND = unsafe { GetForegroundWindow() };
-    if h_wnd == HWND(0) {
+    if h_wnd == HWND::default() {
         return ();
     }
 
     let h_ime: HWND = unsafe { ImmGetDefaultIMEWnd(h_wnd) };
-    if h_ime == HWND(0) {
+    if h_ime == HWND::default() {
         return ();
     }
 
     let stat: LRESULT;
     if argc < 2 {
-        stat = unsafe { SendMessageW(h_ime, WM_IME_CONTROL, IMC_GETOPENSTATUS, LPARAM(0)) };
+        stat = unsafe {
+            SendMessageW(
+                h_ime,
+                WM_IME_CONTROL,
+                Some(IMC_GETOPENSTATUS),
+                Some(LPARAM::default()),
+            )
+        };
     } else {
         let mode: i32 = match argv.get(1).unwrap_or(&"0".to_string()).parse() {
             Ok(i) => i,
@@ -39,8 +46,8 @@ fn main() {
             SendMessageW(
                 h_ime,
                 WM_IME_CONTROL,
-                IMC_SETOPENSTATUS,
-                LPARAM(mode as isize),
+                Some(IMC_SETOPENSTATUS),
+                Some(LPARAM(mode as isize)),
             )
         };
         stat = LRESULT(mode as isize);
