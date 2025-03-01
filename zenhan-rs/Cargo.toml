@@ -14,3 +14,15 @@ features = [
   "Win32_UI_Input_Ime",
   "Win32_UI_WindowsAndMessaging",
 ]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+strip = true
+panic = 'abort'
+incremental = false
+overflow-checks = false
